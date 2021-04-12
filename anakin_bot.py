@@ -12,10 +12,45 @@ GUILD = os.getenv('DISCORD_GUILD')
 
 client = commands.Bot(command_prefix='$')
 
-@client.command()
-async def tragedy(ctx):     #send user a story not told by Jedi
+@client.command(help='Send user a story not told by Jedi.')     #send user a story not told by Jedi 
+async def tragedy(ctx):     
         Tragedy = 'Did you ever hear the tragedy of Darth Plagueis The Wise? I thought not. It\'s not a story the Jedi would tell you. It\'s a Sith legend. Darth Plagueis was a Dark Lord of the Sith, so powerful and so wise he could use the Force to influence the midichlorians to create life… He had such a knowledge of the dark side that he could even keep the ones he cared about from dying. The dark side of the Force is a pathway to many abilities some consider to be unnatural. He became so powerful… the only thing he was afraid of was losing his power, which eventually, of course, he did. Unfortunately, he taught his apprentice everything he knew, then his apprentice killed him in his sleep. Ironic. He could save others from death, but not himself.'
         await ctx.author.send(Tragedy)
+
+@client.command(help='Send user video link based on argument provided.')       #send user video link
+async def video(ctx, arg):
+    send_link = False
+    if arg.lower() == 'rogue one':
+        embed=discord.Embed(title='Rogue One slightly alternative ending', url='https://youtu.be/XWBpWN5SKRY', description='', color=0xFF5733)
+        send_link = True
+
+    elif  arg.lower() == 'seagull' or arg.lower == 'seagulls':
+        embed=discord.Embed(title='SEAGULLS! (Stop It Now)', url='https://youtu.be/U9t-slLl30E', description='', color=0xFF5733)
+        send_link = True 
+
+    elif arg.lower() == 'help':     #help option probably improperly implemented
+        await ctx.author.send('The following are valid options:')
+        send_link = False 
+    
+    elif 'option' in arg.lower():
+        await ctx.author.send('The following are valid options:')
+        send_link = False
+
+    else:
+        await ctx.message.reply('Not a valid argument for video command!')
+        send_link = False
+
+    if send_link == True:
+        await ctx.message.reply('If into the security recordings you go. Only pain will you find')
+        await ctx.author.send(embed=embed)  #sends link
+        send_link == False
+
+@client.event       #command error handling
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.CommandNotFound):     #command not found
+        await ctx.send('Not a valid command')
+    if isinstance(error, commands.MissingRequiredArgument):        #missing argument
+        await ctx.send('Please provide an argument for command in quotes ex. $video \"help\"')
 
 @client.event
 async def on_ready():
@@ -27,6 +62,7 @@ async def on_ready():
         f'{client.user} is connected to the following guild:\n'
         f'{guild.name}(id: {guild.id})'                 #prints connected to server
     )
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name='through the lies of the Jedi'))
 
 @client.event
 async def on_message(message):
