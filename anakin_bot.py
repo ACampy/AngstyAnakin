@@ -13,31 +13,32 @@ GUILD = os.getenv('DISCORD_GUILD')
 client = commands.Bot(command_prefix='$')
 
 @client.command(help='Send user a story not told by Jedi.')     #send user a story not told by Jedi 
-async def tragedy(ctx):     
+async def tragedy(ctx):
         Tragedy = 'Did you ever hear the tragedy of Darth Plagueis The Wise? I thought not. It\'s not a story the Jedi would tell you. It\'s a Sith legend. Darth Plagueis was a Dark Lord of the Sith, so powerful and so wise he could use the Force to influence the midichlorians to create life… He had such a knowledge of the dark side that he could even keep the ones he cared about from dying. The dark side of the Force is a pathway to many abilities some consider to be unnatural. He became so powerful… the only thing he was afraid of was losing his power, which eventually, of course, he did. Unfortunately, he taught his apprentice everything he knew, then his apprentice killed him in his sleep. Ironic. He could save others from death, but not himself.'
         await ctx.author.send(Tragedy)
 
 @client.command(help='Send user video link based on argument provided.')       #send user video link
 async def video(ctx, arg):
     send_link = False
-    if arg.lower() == 'rogue one':
+    arg_opt = ['help: List options', '1: Rogue One Ending', '2: Seagulls', '3: Coming soon']
+    if arg.lower() == '1':
         embed=discord.Embed(title='Rogue One slightly alternative ending', url='https://youtu.be/XWBpWN5SKRY', description='', color=0xFF5733)
         send_link = True
 
-    elif  arg.lower() == 'seagull' or arg.lower == 'seagulls':
+    elif  arg.lower() == '2':
         embed=discord.Embed(title='SEAGULLS! (Stop It Now)', url='https://youtu.be/U9t-slLl30E', description='', color=0xFF5733)
-        send_link = True 
+        send_link = True
 
-    elif arg.lower() == 'help':     #help option probably improperly implemented
-        await ctx.author.send('The following are valid options:')
-        send_link = False 
-    
-    elif 'option' in arg.lower():
-        await ctx.author.send('The following are valid options:')
+#    elif arg.lower() == 'help':     #help option probably improperly implemented
+#        await ctx.author.send('The following are valid options:')
+#        send_link = False
+
+    elif  arg.lower() == 'help':
+        await ctx.author.send(arg_opt)
         send_link = False
 
     else:
-        await ctx.message.reply('Not a valid argument for video command!')
+        await ctx.message.reply('Not a valid argument for video command! \nTry $video help')
         send_link = False
 
     if send_link == True:
@@ -68,7 +69,7 @@ async def on_ready():
 async def on_message(message):
     if message.author == client.user:
                 return
-            
+
     if 'hello there' in message.content.lower():    #general Kenobi response
         await message.reply('General Kenobi!', mention_author=True)
 
@@ -76,7 +77,7 @@ async def on_message(message):
         dewit = '<:dewit:431109222441287690>'
         await message.add_reaction(dewit)
 
-    if ' sand ' in message.content.lower() or ' sandy ' in message.content.lower():     #don't like sand
+    if ' sand' in message.content.lower() or ' sandy' in message.content.lower():     #don't like sand
         await message.reply('I Don\'t Like Sand. It\'s Coarse And Rough And Irritating And It Gets Everywhere.')
     
     if 'you\'ve grown' in message.content.lower() or 'you have grown' in message.content.lower():      #grown beautiful
@@ -95,6 +96,11 @@ async def on_message(message):
         men_split = men_word.split('men')               #splits original word to before and after 'men' substring
         women_msg = 'Not just the ' + men_word + ' but the ' + men_split[0] + 'women' + men_split[1] + ' and the ' + men_split[0] + 'children' + men_split[1] + ' too!' #build output message string
         await message.reply(women_msg,mention_author=True)
+
+    if 'what are we going to do' in message.content.lower():        #returns youngling GIF
+        embed=discord.Embed(description='', color=discord.Color.blue())
+        embed.set_image(url='https://i.imgur.com/plUr2WC.gif')
+        await message.reply(embed=embed)
 
     await client.process_commands(message) 
 
