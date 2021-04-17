@@ -102,6 +102,9 @@ async def on_message(message):
         embed.set_image(url='https://i.imgur.com/plUr2WC.gif')
         await message.reply(embed=embed)
 
+    if message.attachments:     #reply if attachment present
+        await message.reply('Attachment is forbidden. Possession is forbidden. Compassion, which I would define as unconditional love, is essential to a Jedi’s life. So you might say, that we are encouraged to love.')
+
     await client.process_commands(message) 
 
 client.run(TOKEN) 
