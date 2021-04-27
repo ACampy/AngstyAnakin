@@ -5,7 +5,7 @@ from discord.utils import get
 from discord.ext import commands
 import discord
 from dotenv import load_dotenv
-import asyncio
+import time
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -21,7 +21,7 @@ async def tragedy(ctx):
         await ctx.author.send(Tragedy)
 
 @client.command(help='Anakin takes a seat for 3 minutes', pass_context=True)    #Bot takes a seat (goes to sleep)
-async def seat(ctx):    
+async def seat(ctx):
 #     embed=discord.Embed(description='', color=discord.Color.purple())    #Mace windu
 #     embed.set_image(url='https://media.giphy.com/media/xTiIzQ1wrS9B4XYHy8/giphy.gif')
 #     await message.reply(embed=embed)
