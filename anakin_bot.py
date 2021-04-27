@@ -5,6 +5,7 @@ from discord.utils import get
 from discord.ext import commands
 import discord
 from dotenv import load_dotenv
+import asyncio
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -12,15 +13,37 @@ GUILD = os.getenv('DISCORD_GUILD')
 
 client = commands.Bot(command_prefix='$')
 
+message_count = 0
+
 @client.command(help='Send user a story not told by Jedi.')     #send user a story not told by Jedi 
 async def tragedy(ctx):
         Tragedy = 'Did you ever hear the tragedy of Darth Plagueis The Wise? I thought not. It\'s not a story the Jedi would tell you. It\'s a Sith legend. Darth Plagueis was a Dark Lord of the Sith, so powerful and so wise he could use the Force to influence the midichlorians to create life… He had such a knowledge of the dark side that he could even keep the ones he cared about from dying. The dark side of the Force is a pathway to many abilities some consider to be unnatural. He became so powerful… the only thing he was afraid of was losing his power, which eventually, of course, he did. Unfortunately, he taught his apprentice everything he knew, then his apprentice killed him in his sleep. Ironic. He could save others from death, but not himself.'
         await ctx.author.send(Tragedy)
-        
-@client.command(help='Notifies User when the fun begins.', pass_context=True)
+
+@client.command(help='Anakin takes a seat for 3 minutes', pass_context=True)    #Bot takes a seat (goes to sleep)
+async def seat(ctx):    
+#     embed=discord.Embed(description='', color=discord.Color.purple())    #Mace windu
+#     embed.set_image(url='https://media.giphy.com/media/xTiIzQ1wrS9B4XYHy8/giphy.gif')
+#     await message.reply(embed=embed)
+
+    embed=discord.Embed(description='Sitting on the council for 3 minutes', color=discord.Color.red())    #takes seat
+    embed.set_image(url='https://media.giphy.com/media/YLvmnUXgHNQKA/giphy.gif')
+    await ctx.send(embed=embed)
+    time.sleep(180.0)
+    print('Because of Obiwan?')
+    await ctx.send('Because of Obiwan?')    #wakes up
+
+@client.command(help='Notifies User when the fun begins.', pass_context=True)    #Manually declare fun has begun
 async def fun(ctx):
     embed=discord.Embed(description='', color=discord.Color.red())
     embed.set_image(url='https://thumbs.gfycat.com/FlawedEuphoricClumber-size_restricted.gif')
+    await ctx.send(embed=embed)
+    await ctx.message.delete()
+
+@client.command(help='That\'s a good trick', pass_context=True)
+async def spinning(ctx):
+    embed=discord.Embed(description='ƃuᴉuuᴉds', color=discord.Color.blue())
+    embed.set_image(url='https://media.giphy.com/media/l3fZMMONXeOKRPGog/giphy.gif')
     await ctx.send(embed=embed)
     await ctx.message.delete()
     
@@ -67,9 +90,16 @@ async def on_ready():
         f'{guild.name}(id: {guild.id})'                 #prints connected to server
     )
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name='through the lies of the Jedi'))
+    channel = client.get_channel(830327481859833898)
+    embed=discord.Embed(description='', color=discord.Color.red())
+    embed.set_image(url='https://media.giphy.com/media/3owzVXoDN8iP0w3T68/giphy.gif') 
+    await channel.send(embed=embed)
 
 @client.event
 async def on_message(message):
+    global message_count
+    message_count += 1
+    
     if message.author == client.user:
                 return
 
@@ -105,6 +135,22 @@ async def on_message(message):
         embed.set_image(url='https://i.imgur.com/plUr2WC.gif')
         await message.reply(embed=embed)
 
+    if ' unfair' in message.content.lower() or ' outrageous' in message.content.lower():    #Take a seat
+        embed=discord.Embed(description='', color=discord.Color.purple())
+        embed.set_image(url='https://media.giphy.com/media/xTiIzQ1wrS9B4XYHy8/giphy.gif')
+        await message.reply(embed=embed)
+    
+    if 'don\'t try it' in message.content.lower() or 'high ground' in message.content.lower() or ' underestimate' in message.content.lower():    #anakin demise
+        embed=discord.Embed(description='', color=discord.Color.red())
+        embed.set_image(url='https://media.giphy.com/media/Y7WyqcyjP4gr6/giphy.gif')
+        await message.reply(embed=embed)        
+    
+    if message_count == 69:    #Droid attack every X messages
+        message_count = 0
+        embed=discord.Embed(description='', color=discord.Color.blue())
+        embed.set_image(url='https://i.kym-cdn.com/entries/icons/original/000/023/107/droid.jpg')
+        await message.reply(embed=embed)
+    
     #if message.attachments:     #reply if attachment present. Disabled
         #await message.reply('Attachment is forbidden. Possession is forbidden. Compassion, which I would define as unconditional love, is essential to a Jedi’s life. So you might say, that we are encouraged to love.')
 
