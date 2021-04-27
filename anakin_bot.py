@@ -16,7 +16,14 @@ client = commands.Bot(command_prefix='$')
 async def tragedy(ctx):
         Tragedy = 'Did you ever hear the tragedy of Darth Plagueis The Wise? I thought not. It\'s not a story the Jedi would tell you. It\'s a Sith legend. Darth Plagueis was a Dark Lord of the Sith, so powerful and so wise he could use the Force to influence the midichlorians to create life… He had such a knowledge of the dark side that he could even keep the ones he cared about from dying. The dark side of the Force is a pathway to many abilities some consider to be unnatural. He became so powerful… the only thing he was afraid of was losing his power, which eventually, of course, he did. Unfortunately, he taught his apprentice everything he knew, then his apprentice killed him in his sleep. Ironic. He could save others from death, but not himself.'
         await ctx.author.send(Tragedy)
-
+        
+@client.command(help='Notifies User when the fun begins.', pass_context=True)
+async def fun(ctx):
+    embed=discord.Embed(description='', color=discord.Color.red())
+    embed.set_image(url='https://thumbs.gfycat.com/FlawedEuphoricClumber-size_restricted.gif')
+    await ctx.send(embed=embed)
+    await ctx.message.delete()
+    
 @client.command(help='Send user video link based on argument provided.')       #send user video link
 async def video(ctx, arg):
     send_link = False
@@ -28,10 +35,6 @@ async def video(ctx, arg):
     elif  arg.lower() == '2':
         embed=discord.Embed(title='SEAGULLS! (Stop It Now)', url='https://youtu.be/U9t-slLl30E', description='', color=0xFF5733)
         send_link = True
-
-#    elif arg.lower() == 'help':     #help option probably improperly implemented
-#        await ctx.author.send('The following are valid options:')
-#        send_link = False
 
     elif  arg.lower() == 'help':
         await ctx.author.send(arg_opt)
@@ -102,8 +105,8 @@ async def on_message(message):
         embed.set_image(url='https://i.imgur.com/plUr2WC.gif')
         await message.reply(embed=embed)
 
-    if message.attachments:     #reply if attachment present
-        await message.reply('Attachment is forbidden. Possession is forbidden. Compassion, which I would define as unconditional love, is essential to a Jedi’s life. So you might say, that we are encouraged to love.')
+    #if message.attachments:     #reply if attachment present. Disabled
+        #await message.reply('Attachment is forbidden. Possession is forbidden. Compassion, which I would define as unconditional love, is essential to a Jedi’s life. So you might say, that we are encouraged to love.')
 
     await client.process_commands(message) 
 
