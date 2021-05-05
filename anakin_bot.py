@@ -20,18 +20,17 @@ async def tragedy(ctx):
         Tragedy = 'Did you ever hear the tragedy of Darth Plagueis The Wise? I thought not. It\'s not a story the Jedi would tell you. It\'s a Sith legend. Darth Plagueis was a Dark Lord of the Sith, so powerful and so wise he could use the Force to influence the midichlorians to create life… He had such a knowledge of the dark side that he could even keep the ones he cared about from dying. The dark side of the Force is a pathway to many abilities some consider to be unnatural. He became so powerful… the only thing he was afraid of was losing his power, which eventually, of course, he did. Unfortunately, he taught his apprentice everything he knew, then his apprentice killed him in his sleep. Ironic. He could save others from death, but not himself.'
         await ctx.author.send(Tragedy)
 
-@client.command(help='Anakin takes a seat for 3 minutes', pass_context=True)    #Bot takes a seat (goes to sleep)
+@client.command(help='Anakin takes a seat for 2 minutes', pass_context=True)    #Bot takes a seat (goes to sleep) Causes blocking
 async def seat(ctx):
-#     embed=discord.Embed(description='', color=discord.Color.purple())    #Mace windu
-#     embed.set_image(url='https://media.giphy.com/media/xTiIzQ1wrS9B4XYHy8/giphy.gif')
-#     await message.reply(embed=embed)
-
-    embed=discord.Embed(description='Sitting on the council for 3 minutes', color=discord.Color.red())    #takes seat
-    embed.set_image(url='https://media.giphy.com/media/YLvmnUXgHNQKA/giphy.gif')
+    embed=discord.Embed(description=' ', color=discord.Color.red())
+#    embed.set_image(url='https://media.giphy.com/media/xTiIzQ1wrS9B4XYHy8/giphy.gif')  #mace 
+#    await message.reply(embed=embed)
+    embed.set_image(url='https://media.giphy.com/media/YLvmnUXgHNQKA/giphy.gif')   #takes seat
     await ctx.send(embed=embed)
-    time.sleep(180.0)
-    print('Because of Obiwan?')
-    await ctx.send('Because of Obiwan?')    #wakes up
+    await client.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name='Council meeting.'))
+    time.sleep(120.0)    #sleepy time
+    embed.set_image(url='https://64.media.tumblr.com/fcfd2efc6bd1773f096846f2ca8fec05/2c046872c9e7a1ba-7c/s500x750/df6ed07650ad4fef1d7e764c970dfc52ccb02625.gifv')
+    await ctx.send(embed=embed)
 
 @client.command(help='Notifies User when the fun begins.', pass_context=True)    #Manually declare fun has begun
 async def fun(ctx):
@@ -46,7 +45,7 @@ async def spinning(ctx):
     embed.set_image(url='https://media.giphy.com/media/l3fZMMONXeOKRPGog/giphy.gif')
     await ctx.send(embed=embed)
     await ctx.message.delete()
-    
+
 @client.command(help='Send user video link based on argument provided.')       #send user video link
 async def video(ctx, arg):
     send_link = False
@@ -91,9 +90,9 @@ async def on_ready():
     )
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name='through the lies of the Jedi'))
     channel = client.get_channel(830327481859833898)
-    embed=discord.Embed(description='', color=discord.Color.red())
-    embed.set_image(url='https://media.giphy.com/media/3owzVXoDN8iP0w3T68/giphy.gif') 
-    await channel.send(embed=embed)
+#    embed=discord.Embed(description='', color=discord.Color.red())
+#    embed.set_image(url='https://media.giphy.com/media/3owzVXoDN8iP0w3T68/giphy.gif') 
+#    await channel.send(embed=embed)
 
 @client.event
 async def on_message(message):
@@ -119,7 +118,7 @@ async def on_message(message):
     if ' is evil' in message.content.lower():       #point of view
         await message.reply('From my point of view, the Jedi are evil.')
 
-    if 'men' in message.content.lower():    #Men + women + children
+    if 'men' in message.content.lower() and not 'reddit.com' in message.content.lower():    #Men + women + children
         og_msg = message.content
         words = og_msg.split(' ')                       #splits message into individualt words based on spaces
         for men_location, string in enumerate(words):   #needed to find 'men' substring on a word in the message
