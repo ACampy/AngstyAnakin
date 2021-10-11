@@ -118,7 +118,7 @@ async def on_message(message):
     if ' is evil' in message.content.lower():       #point of view
         await message.reply('From my point of view, the Jedi are evil.')
 
-    if 'men' in message.content.lower() and not 'reddit.com' in message.content.lower():    #Men + women + children
+    if 'men' in message.content.lower() and not '.com' in message.content.lower():    #Men + women + children
         og_msg = message.content
         words = og_msg.split(' ')                       #splits message into individualt words based on spaces
         for men_location, string in enumerate(words):   #needed to find 'men' substring on a word in the message
@@ -144,7 +144,7 @@ async def on_message(message):
         embed.set_image(url='https://media.giphy.com/media/Y7WyqcyjP4gr6/giphy.gif')
         await message.reply(embed=embed)        
     
-    if message_count == 69:    #Droid attack every X messages
+    if message_count == 420:    #Droid attack every X messages
         message_count = 0
         embed=discord.Embed(description='', color=discord.Color.blue())
         embed.set_image(url='https://i.kym-cdn.com/entries/icons/original/000/023/107/droid.jpg')
